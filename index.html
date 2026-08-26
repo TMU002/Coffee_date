@@ -1,0 +1,366 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Coffee Date? ☕💕</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8e8dc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            max-width: 450px;
+            width: 85%;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            color: #6b3e26;
+            font-size: 32px;
+        }
+
+        p {
+            color: #555;
+            font-size: 18px;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            border: none;
+            padding: 14px 25px;
+            border-radius: 12px;
+            font-size: 17px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #yes {
+            background: #8fbc8f;
+            color: white;
+        }
+
+        #yes:hover {
+            transform: scale(1.1);
+        }
+
+        #no {
+            background: #d98b8b;
+            color: white;
+            position: relative;
+        }
+
+        #message {
+            margin-top: 25px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #6b3e26;
+            min-height: 30px;
+        }
+
+        #date {
+            display: none;
+            margin-top: 25px;
+            color: #6b3e26;
+        }
+
+        #date h2 {
+            font-size: 28px;
+        }
+
+        .coffee {
+            font-size: 65px;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .hearts {
+            font-size: 30px;
+            margin-top: 15px;
+        }
+
+        .heart {
+            position: fixed;
+            bottom: -50px;
+            font-size: 25px;
+            animation: floatUp 4s linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            top: -20px;
+            font-size: 25px;
+            z-index: 5;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(720deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+
+        <div class="coffee">☕</div>
+
+        <h1 id="title">Coffee Date? 💕</h1>
+
+        <p id="question">
+            Would you like to go on a coffee date with me?
+        </p>
+
+        <div class="buttons">
+
+            <button id="yes" onclick="yesClicked()">
+                YES 💕
+            </button>
+
+            <button id="no">
+                No 😐
+            </button>
+
+        </div>
+
+        <div id="message"></div>
+
+        <div id="date">
+
+            <h2>YAYYY! 🥰💕</h2>
+
+            <p>
+                You have officially accepted your coffee date!
+            </p>
+
+            <h2>📅 3rd September</h2>
+
+            <p>
+                ☕ Coffee Date 💕
+            </p>
+
+            <div class="hearts">
+                🥰 ☕ 💕 🎉
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let noAttempts = 0;
+
+        const messages = [
+            "Hmm... I think you meant YES 😌",
+            "Are you sure about that? 🤨",
+            "Wrong button! Try again 😭",
+            "The NO button seems to be broken... 👀",
+            "Why are you chasing the NO button? 😭",
+            "I don't think you're getting away that easily 😌",
+            "Please reconsider your decision 🥺☕",
+            "The NO button is getting nervous now 🏃‍♂️💨",
+            "Okay... this is getting embarrassing 😂",
+            "JUST SAY YES 😭💕"
+        ];
+
+
+        const noButton = document.getElementById("no");
+
+
+        // Makes the NO button run away when the mouse gets close
+        noButton.addEventListener("mouseover", function() {
+
+            noAttempts++;
+
+            if (noAttempts <= messages.length) {
+
+                document.getElementById("message").innerHTML =
+                    messages[noAttempts - 1];
+
+            } else {
+
+                document.getElementById("message").innerHTML =
+                    "JUST SAY YES ALREADY 😭💕";
+
+            }
+
+            moveNoButton();
+
+        });
+
+
+        // Also makes it run away if somehow clicked
+        noButton.addEventListener("click", function() {
+
+            noAttempts++;
+
+            moveNoButton();
+
+        });
+
+
+        function moveNoButton() {
+
+            noButton.style.position = "fixed";
+
+            const buttonWidth = noButton.offsetWidth;
+            const buttonHeight = noButton.offsetHeight;
+
+            const maxX = window.innerWidth - buttonWidth - 20;
+            const maxY = window.innerHeight - buttonHeight - 20;
+
+            const randomX =
+                Math.max(20, Math.random() * maxX);
+
+            const randomY =
+                Math.max(20, Math.random() * maxY);
+
+            noButton.style.left = randomX + "px";
+            noButton.style.top = randomY + "px";
+
+        }
+
+
+        function yesClicked() {
+
+            document.getElementById("message").innerHTML = "";
+
+            document.getElementById("question").innerHTML =
+                "I knew you'd say YES! 🥰";
+
+            document.getElementById("title").innerHTML =
+                "IT'S A DATE! 💕☕";
+
+            document.getElementById("date").style.display =
+                "block";
+
+            document.getElementById("no").style.display =
+                "none";
+
+            document.getElementById("yes").style.display =
+                "none";
+
+            startConfetti();
+            startHearts();
+
+        }
+
+
+        function startConfetti() {
+
+            const emojis = ["💕", "💗", "💖", "☕", "✨", "🥰"];
+
+            for (let i = 0; i < 60; i++) {
+
+                const confetti =
+                    document.createElement("div");
+
+                confetti.classList.add("confetti");
+
+                confetti.innerHTML =
+                    emojis[Math.floor(Math.random() * emojis.length)];
+
+                confetti.style.left =
+                    Math.random() * 100 + "vw";
+
+                confetti.style.animationDelay =
+                    Math.random() * 2 + "s";
+
+                document.body.appendChild(confetti);
+
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+
+            }
+
+        }
+
+
+        function startHearts() {
+
+            setInterval(() => {
+
+                const heart =
+                    document.createElement("div");
+
+                heart.classList.add("heart");
+
+                heart.innerHTML =
+                    ["💕", "💗", "💖", "❤️", "🥰"]
+                    [Math.floor(Math.random() * 5)];
+
+                heart.style.left =
+                    Math.random() * 100 + "vw";
+
+                heart.style.animationDuration =
+                    (3 + Math.random() * 3) + "s";
+
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+
+            }, 500);
+
+        }
+
+    </script>
+
+</body>
+</html>
+```
